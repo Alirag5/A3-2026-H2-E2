@@ -1,59 +1,127 @@
 package com.trazo.app.ui.theme
 
-import android.os.Build
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.graphics.Color
+import com.trazo.app.ui.theme.Error200
+import com.trazo.app.ui.theme.Error600
+import com.trazo.app.ui.theme.Error800
+import com.trazo.app.ui.theme.Info200
+import com.trazo.app.ui.theme.Info700
+import com.trazo.app.ui.theme.Info900
+import com.trazo.app.ui.theme.Neutral0
+import com.trazo.app.ui.theme.Neutral100
+import com.trazo.app.ui.theme.Neutral200
+import com.trazo.app.ui.theme.Neutral300
+import com.trazo.app.ui.theme.Neutral50
+import com.trazo.app.ui.theme.Neutral600
+import com.trazo.app.ui.theme.Neutral700
+import com.trazo.app.ui.theme.Neutral900
+import com.trazo.app.ui.theme.Primary100
+import com.trazo.app.ui.theme.Primary300
+import com.trazo.app.ui.theme.Primary500
+import com.trazo.app.ui.theme.Primary900
+import com.trazo.app.ui.theme.Primary950
+import com.trazo.app.ui.theme.Secondary200
+import com.trazo.app.ui.theme.Secondary700
+import com.trazo.app.ui.theme.Success200
+import com.trazo.app.ui.theme.Success700
+import com.trazo.app.ui.theme.TrazoShapes
+import com.trazo.app.ui.theme.TrazoTypography
+import com.trazo.app.ui.theme.Warning200
+import com.trazo.app.ui.theme.Warning700
 
-private val DarkColorScheme =
-    darkColorScheme(
-        primary = Purple80,
-        secondary = PurpleGrey80,
-        tertiary = Pink80,
-    )
-
-private val LightColorScheme =
+private val TrazoLightColors =
     lightColorScheme(
-        primary = Purple40,
-        secondary = PurpleGrey40,
-        tertiary = Pink40,
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-     */
+        primary = Primary950,
+        onPrimary = Neutral0,
+        primaryContainer = Primary100,
+        onPrimaryContainer = Primary950,
+        inversePrimary = Primary300,
+        secondary = Secondary700,
+        onSecondary = Neutral0,
+        secondaryContainer = Secondary200,
+        onSecondaryContainer = Primary950,
+        // Tertiary se usa para el modo demo
+        tertiary = Info700,
+        onTertiary = Neutral0,
+        tertiaryContainer = Info200,
+        onTertiaryContainer = Info900,
+        error = Error600,
+        onError = Neutral0,
+        errorContainer = Error200,
+        onErrorContainer = Error800,
+        background = Neutral100,
+        onBackground = Neutral900,
+        surface = Neutral100,
+        onSurface = Neutral900,
+        surfaceVariant = Neutral200,
+        onSurfaceVariant = Neutral700,
+        surfaceContainerLowest = Neutral0,
+        surfaceContainerLow = Neutral50,
+        surfaceContainer = Neutral200,
+        surfaceContainerHigh = Neutral300,
+        surfaceContainerHighest = Neutral300,
+        surfaceTint = Primary950,
+        outline = Neutral600,
+        outlineVariant = Neutral300,
+        inverseSurface = Primary900,
+        inverseOnSurface = Primary100,
+        scrim = Color.Black,
     )
+
+/** Colores que Material 3 no trae: estados del sistema y colores del mapa. */
+@Immutable
+data class TrazoExtendedColors(
+    val success: Color = Success700,
+    val successContainer: Color = Success200,
+    val onSuccessContainer: Color = Success700,
+    val warning: Color = Warning700,
+    val warningContainer: Color = Warning200,
+    val onWarningContainer: Color = Warning700,
+    val info: Color = Info700,
+    val infoContainer: Color = Info200,
+    val onInfoContainer: Color = Info900,
+    // Mapa
+    val traceLive: Color = Primary950,
+    val traceLiveOutline: Color = Neutral0,
+    val traceSaved: Color = Primary500.copy(alpha = 0.75f),
+    val brakePin: Color = Error600,
+    val startPin: Color = Secondary700,
+    val locationHalo: Color = Primary300.copy(alpha = 0.35f),
+)
+
+val LocalTrazoColors = staticCompositionLocalOf { TrazoExtendedColors() }
 
 @Composable
-fun TrazoTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
-    content: @Composable () -> Unit,
-) {
-    val colorScheme =
-        when {
-            dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-                val context = LocalContext.current
-                if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-            }
+fun TrazoTheme(content: @Composable () -> Unit) {
+    // Sin color dinámico (Material You): la app conserva siempre su marca.
+    CompositionLocalProvider(LocalTrazoColors provides TrazoExtendedColors()) {
+        MaterialTheme(
+            colorScheme = TrazoLightColors,
+            typography = TrazoTypography,
+            shapes = TrazoShapes,
+            content = content,
+        )
+    }
+}
 
-            darkTheme -> DarkColorScheme
-            else -> LightColorScheme
-        }
+object TrazoTheme {
+    val extendedColors: TrazoExtendedColors
+        @Composable @ReadOnlyComposable
+        get() = LocalTrazoColors.current
+}
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        content = content,
-    )
+/**
+ * Compatibilidad con el scaffolding: MainActivity y Greeting todavía llaman a este nombre.
+ * Reemplazar esas llamadas por TrazoTheme y borrar esta función.
+ */
+@Composable
+fun ScaffoldingAndroid3Theme(content: @Composable () -> Unit) {
+    TrazoTheme(content = content)
 }
