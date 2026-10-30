@@ -1,6 +1,6 @@
 ---
 name: trazo-design-system
-description: Sistema de diseño de Trazo (Kotlin + Jetpack Compose + Material 3). Usar al crear, modificar o revisar pantallas, componentes, colores, tipografía, espaciado, textos de interfaz o el tema de Compose de la app.
+description: "Sistema de diseño de Trazo / Trazo design system (Kotlin + Jetpack Compose + Material 3). Usar al crear, modificar o revisar pantallas, componentes, colores, tipografía, espaciado, textos de interfaz o el tema de Compose. Use when creating, editing or reviewing screens, components, colors, typography, spacing, UI copy or the Compose theme of the Trazo app."
 ---
 
 # trazo-design-system Skill
