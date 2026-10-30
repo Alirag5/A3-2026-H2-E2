@@ -9,7 +9,7 @@ Memoria de proyecto para todo trabajo de UI (pantallas, componentes, tema, texto
 
 ## Tema
 
-- El tema vive en `app/src/main/java/com/trazo/app/ui/theme/`: `Color.kt`, `Theme.kt`, `Type.kt`, `Shape.kt` y `Dimens.kt`.
+- El tema vive en `../../app/src/main/java/com/trazo/app/ui/theme`: `Color.kt`, `Theme.kt`, `Type.kt`, `Shape.kt` y `Dimens.kt`.
 - Toda pantalla se envuelve en `TrazoTheme { … }`. `ScaffoldingAndroid3Theme` es solo un alias temporal.
 - Los colores se usan **por rol**: `MaterialTheme.colorScheme.*` o `TrazoTheme.extendedColors.*` (success, warning, info, mapa). **Nunca** hex sueltos en composables.
 - El color dinámico (Material You) está desactivado. Por ahora solo hay tema claro.
