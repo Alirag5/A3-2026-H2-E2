@@ -9,15 +9,15 @@ plugins {
 }
 
 android {
-    namespace = "ar.edu.unlam.scaffoldingandroid3"
+    namespace = "com.trazo.app"
     compileSdk = 37
 
     defaultConfig {
-        applicationId = "ar.edu.unlam.scaffoldingandroid3"
+        applicationId = "com.trazo.app"
         minSdk = 24
         targetSdk = 37
         versionCode = 1
-        versionName = "1.0"
+        versionName = "0.1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -55,6 +55,8 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.material.icons.core)
+    implementation(libs.androidx.navigation.compose)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
