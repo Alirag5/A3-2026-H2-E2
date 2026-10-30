@@ -7,6 +7,51 @@ fileMatchPattern: ["app/src/main/java/**/ui/**/*.kt", "**/*Screen.kt"]
 
 Memoria de proyecto para todo trabajo de UI (pantallas, componentes, tema, textos). La especificación completa, con medidas de cada componente, patrones de pantalla y ejemplos de Compose, está en la skill `trazo-design-system`, archivo `references/trazo-design-system.md`.
 
+## Ubicación de archivos de UI
+
+Sigue el documento "Estructura del proyecto Trazo". Carpetas y archivos siempre en inglés. Las rutas son relativas al paquete base de la app (hoy `ar/edu/unlam/scaffoldingandroid3/`, con migración prevista a `com/trazo/app/`).
+
+```
+ui/
+├── navigation/          TrazoApp.kt (NavHost + Scaffold principal), BottomNavBar.kt
+├── screens/
+│   ├── home/            HomeScreen.kt, HomeViewModel.kt, components/ (solo de esta pantalla)
+│   ├── map/             misma forma
+│   ├── history/
+│   ├── settings/
+│   ├── result/          «¡Meta cumplida!» / «Recorrido finalizado»
+│   └── saverun/         «Guardar recorrido»
+├── components/          globales (2+ pantallas)
+│   ├── layout/          marco de pantalla: reciben `content: @Composable () -> Unit`
+│   └── common/          piezas sueltas dentro del marco
+└── theme/               Color, Type, Shape, Dimens, Theme
+```
+
+Reglas:
+- **Todo componente nuevo nace en `screens/<pantalla>/components/`.** Cuando una segunda pantalla lo necesita, se mueve a `components/layout/` o `components/common/` y se generaliza (se le quitan las referencias a la pantalla original).
+- Una pantalla **nunca** importa componentes de la carpeta de otra pantalla. Si hace falta, es señal de que hay que moverlo a `ui/components/`.
+- **layout** = define el marco y recibe contenido (`TrazoTopBar`, `ScreenContainer`, `SectionHeader`). **common** = pieza que va dentro del marco (`PrimaryButton`, `TrazoTextField`, `LoadingIndicator`, `EmptyState`).
+- Si la carpeta `components/` de una pantalla queda vacía, no se crea.
+- Dependencias permitidas: `ui/screens` → `domain`, `ui/components`, `ui/theme`. `ui/components` → solo `ui/theme`. `ui/navigation` → `ui/screens`. La UI nunca importa de `data/`.
+- Un componente por archivo, con el nombre igual al composable (PascalCase). Los componentes reciben estado y eventos por parámetro (no acceden a ViewModels). Cada uno lleva su `@Preview` con `TrazoTheme`. Los textos visibles van en `strings.xml`.
+
+Ubicación inicial de los componentes del sistema de diseño:
+
+| Componente | Carpeta | Motivo |
+|---|---|---|
+| `TrazoTopBar`, `ScreenContainer`, `SectionHeader` | `components/layout/` | Marco de varias pantallas |
+| `PrimaryButton`, `TrazoTextField`, `EmptyState`, `LoadingIndicator` | `components/common/` | Piezas usadas en varias pantallas |
+| `MetricValue` (valor + unidad, tabular) | `components/common/` | Lo usan map, result, history y saverun |
+| `StatusBadge` («Meta cumplida», «Incompleto», «Demo») | `components/common/` | Lo usan home e history |
+| `GoalChip` + modal «Iniciar nuevo recorrido» | `components/common/` | Se abre desde home y map |
+| `BottomNavBar` | `navigation/` | Conoce las rutas |
+| `RecentRunItem` (card compacta) | `screens/home/components/` | Solo en Inicio |
+| `RunPanel`, `RunControls`, `BrakeAlert`, `GpsIndicator`, capa de traza | `screens/map/components/` | Solo en Mapa |
+| `RunCard` (card completa), `RunDetailSheet` | `screens/history/components/` | Solo en Historial |
+| `HighlightChip`, `PhotoPicker` | `screens/saverun/components/` | Solo en Guardar recorrido |
+| `GoalReachedCard` | `screens/result/components/` | Solo en Resultado |
+| `PermissionRow`, switch de modo demo | `screens/settings/components/` | Solo en Configuración |
+
 ## Tema
 
 - El tema vive en `../../app/src/main/java/com/trazo/app/ui/theme`: `Color.kt`, `Theme.kt`, `Type.kt`, `Shape.kt` y `Dimens.kt`.
