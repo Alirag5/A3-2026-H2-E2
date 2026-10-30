@@ -13,7 +13,7 @@ Memoria de proyecto para todo trabajo de UI (pantallas, componentes, tema, texto
 - Toda pantalla se envuelve en `TrazoTheme { … }`. `ScaffoldingAndroid3Theme` es solo un alias temporal.
 - Los colores se usan **por rol**: `MaterialTheme.colorScheme.*` o `TrazoTheme.extendedColors.*` (success, warning, info, mapa). **Nunca** hex sueltos en composables.
 - El color dinámico (Material You) está desactivado. Por ahora solo hay tema claro.
-
+git
 ## Color
 
 | Rol | Token | Hex | Uso |
