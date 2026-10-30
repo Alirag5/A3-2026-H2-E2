@@ -2,7 +2,7 @@
 
 ## Project Structure & Module Organization
 - This Kotlin Android application has one Gradle module, `app`, and uses Jetpack Compose, Material 3, and Hilt.
-- Source code lives in `app/src/main/java/ar/edu/unlam/scaffoldingandroid3/`. Keep business models and repository contracts in `domain/`, implementations such as `BookStubRepo` in `data/`, and composables in `ui/components/` with styling in `ui/theme/`.
+- Source code lives in `app/src/main/java/com/trazo/app/`. Keep business models and repository contracts in `domain/`, implementations in `data/`, and composables in `ui/components/` with styling in `ui/theme/`.
 - Keep domain logic independent of Android UI and persistence details. Follow source layout over README examples.
 - Resources belong in `app/src/main/res/`; JVM tests in `app/src/test/`; device tests in `app/src/androidTest/`. Dependency versions are centralized in `gradle/libs.versions.toml`.
 

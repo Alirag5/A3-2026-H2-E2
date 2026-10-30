@@ -22,5 +22,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "ScaffoldingAndroid3"
+rootProject.name = "Trazo"
 include(":app")
