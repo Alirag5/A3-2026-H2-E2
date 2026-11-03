@@ -1,6 +1,6 @@
 # Implementation Plan
 
-- [ ] 1. Base: dependencias, textos e íconos compartidos
+- [x] 1. Base: dependencias, textos e íconos compartidos
 - [x] 1.1 Agregar la librería de estado de Compose y los textos de la funcionalidad
   - Declarar explícitamente `lifecycle-runtime-compose`, con la misma versión que `lifecycle-runtime-ktx`, en el catálogo y en `app`. Ya llega transitivamente desde Compose UI (BOM) y está en la caché, así que no hay que descargar nada. Se declara porque Inicio la usa directamente (`collectAsStateWithLifecycle`).
   - Agregar a los recursos de texto las etiquetas de navegación ("Inicio", "Mapa", "Historial"), el mensaje "Todavía no hay recorridos", el texto "Iniciar un recorrido" y la descripción accesible "Nuevo recorrido", con las claves que define el diseño.
@@ -13,7 +13,7 @@
   - Listo cuando los 8 drawables compilan con `./gradlew assembleDebug` y se ven correctamente en la vista previa de Android Studio.
   - _Requirements: 3.3, 3.5, 4.1, 4.5_
 
-- [ ] 2. Piezas principales
+- [x] 2. Piezas principales
 - [x] 2.1 (P) Reemplazar el ícono de la app por el logo de Trazo
   - El primer plano del ícono adaptativo pasa a ser la figura del logo (los trazos y la cabeza, sin el cuadrado de fondo), centrada en el lienzo de 108 dp y dentro de la zona segura de 66 dp.
   - El fondo del ícono adaptativo pasa a ser el color sólido del fondo del logo entregado.
@@ -59,7 +59,7 @@
   - _Boundary: TrazoDestination, BottomNavBar_
   - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5_
 
-- [ ] 3. Integración de Inicio
+- [x] 3. Integración de Inicio
 - [x] 3.1 Armar el contenido de Inicio a partir de su estado
   - Mostrar el estado vacío centrado cuando no hay recorridos, y no mostrar cards en ningún caso.
   - Ubicar el FAB abajo a la derecha, con el margen de pantalla, por encima de la barra de navegación.
@@ -76,7 +76,7 @@
   - _Depends: 2.5, 3.1_
   - _Requirements: 1.3, 1.4, 2.1, 3.2, 3.3, 3.4, 4.4_
 
-- [ ] 4. Validación
+- [x] 4. Validación
 - [x] 4.1 (P) Tests de UI instrumentados del contenido de Inicio
   - Verificar que con el estado inicial se ve "Todavía no hay recorridos".
   - Verificar que el FAB con descripción "Nuevo recorrido" existe, está habilitado y se puede tocar.
