@@ -77,7 +77,7 @@
   - _Requirements: 1.3, 1.4, 2.1, 3.2, 3.3, 3.4, 4.4_
 
 - [ ] 4. Validación
-- [ ] 4.1 (P) Tests de UI instrumentados del contenido de Inicio
+- [x] 4.1 (P) Tests de UI instrumentados del contenido de Inicio
   - Verificar que con el estado inicial se ve "Todavía no hay recorridos".
   - Verificar que el FAB con descripción "Nuevo recorrido" existe, está habilitado y se puede tocar.
   - Verificar que con la opción visible se ve "Iniciar un recorrido" y que tocarla dispara el evento de selección.
@@ -108,3 +108,4 @@
 - `EmptyState` ya aplica `padding(horizontal = Spacing.lg)` en su raíz: `HomeContent` no debe sumar otro margen lateral alrededor.
 - `ui/theme` no tiene tokens de elevación: `StartRunFab` usa `OptionElevationLevel2 = 3.dp` (M3 level2). Moverlo si se agregan tokens. El catálogo de `ui-components.md` dice `DropdownMenu` para `StartRunFab`; el diseño usa `Popup` focusable.
 - 3.2: sin dispositivo, falta verificar en uno real que la app abra en Inicio (ilustración, mensaje, FAB, Inicio acentuado) y que "Atrás" salga de la app (1.3, 1.4, 4.4). Se arrastra a la validación final.
+- 4.1: `HomeContentTest` solo se compiló (sin dispositivo). El test de "tocar afuera" inyecta un toque de sistema con `uiAutomation.injectInputEvent`, porque el `Popup` focusable vive en otra ventana. Correr `connectedDebugAndroidTest` en un dispositivo.
