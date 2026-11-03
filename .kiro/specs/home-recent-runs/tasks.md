@@ -14,7 +14,7 @@
   - _Requirements: 3.3, 3.5, 4.1, 4.5_
 
 - [ ] 2. Piezas principales
-- [ ] 2.1 (P) Reemplazar el ícono de la app por el logo de Trazo
+- [x] 2.1 (P) Reemplazar el ícono de la app por el logo de Trazo
   - El primer plano del ícono adaptativo pasa a ser la figura del logo (los trazos y la cabeza, sin el cuadrado de fondo), centrada en el lienzo de 108 dp y dentro de la zona segura de 66 dp.
   - El fondo del ícono adaptativo pasa a ser el color sólido del fondo del logo entregado.
   - El ícono monocromo sigue usando el primer plano. No se tocan el manifiesto, los temas ni la Activity.
@@ -104,3 +104,4 @@
 ## Implementation Notes
 - `lifecycle-runtime-compose` 2.8.7 ya es transitiva de `androidx.compose.ui:ui` 1.8.0; declararla no cambia la versión resuelta.
 - Material Symbols "history" no tiene variante rellena: `ic_nav_history_filled` = `ic_nav_history_outlined`. La selección de Historial se distingue por el indicador y la etiqueta en negrita (4.5).
+- Ícono adaptativo: el logo va escalado ×1,15 (máx. 31,9 dp del centro); ×1,2 se sale de la zona segura de 33 dp. Falta revisarlo a ojo en la vista previa de Android Studio.
