@@ -86,7 +86,7 @@
   - _Boundary: HomeContentTest_
   - _Requirements: 2.1, 2.3, 3.1, 3.2, 3.3, 3.4, 3.5_
 
-- [ ] 4.2 (P) Tests de UI instrumentados de la barra de navegación
+- [x] 4.2 (P) Tests de UI instrumentados de la barra de navegación
   - Verificar que se ven las tres etiquetas.
   - Verificar que con la ruta de Inicio, Inicio está seleccionado y Mapa e Historial no lo están pero siguen habilitados.
   - Verificar que tocar Mapa avisa la navegación hacia Mapa.
