@@ -60,7 +60,7 @@
   - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5_
 
 - [ ] 3. Integración de Inicio
-- [ ] 3.1 Armar el contenido de Inicio a partir de su estado
+- [x] 3.1 Armar el contenido de Inicio a partir de su estado
   - Mostrar el estado vacío centrado cuando no hay recorridos, y no mostrar cards en ningún caso.
   - Ubicar el FAB abajo a la derecha, con el margen de pantalla, por encima de la barra de navegación.
   - Pasar los eventos del FAB y de la opción como callbacks, sin estado propio.
