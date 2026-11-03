@@ -7,7 +7,7 @@
   - Listo cuando `./gradlew assembleDebug` compila y los seis textos están disponibles como recursos.
   - _Requirements: 2.1, 3.3, 3.5, 4.1_
 
-- [ ] 1.2 Importar los íconos de navegación, del FAB y de la opción
+- [x] 1.2 Importar los íconos de navegación, del FAB y de la opción
   - Importar de Material Symbols (24 dp, weight 400) los vectores de Inicio, Mapa e Historial, cada uno relleno y con trazo, más "add" y "route". Son 8 en total.
   - Si no hay acceso a Material Symbols, usar el plan B del diseño (`material-icons-core`) y dejarlo anotado en Implementation Notes.
   - Listo cuando los 8 drawables compilan con `./gradlew assembleDebug` y se ven correctamente en la vista previa de Android Studio.
@@ -103,3 +103,4 @@
 
 ## Implementation Notes
 - `lifecycle-runtime-compose` 2.8.7 ya es transitiva de `androidx.compose.ui:ui` 1.8.0; declararla no cambia la versión resuelta.
+- Material Symbols "history" no tiene variante rellena: `ic_nav_history_filled` = `ic_nav_history_outlined`. La selección de Historial se distingue por el indicador y la etiqueta en negrita (4.5).
