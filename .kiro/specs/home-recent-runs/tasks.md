@@ -94,7 +94,7 @@
   - _Boundary: BottomNavBarTest_
   - _Requirements: 4.1, 4.2, 4.3, 4.4_
 
-- [ ] 4.3 Chequeo de regresión completo
+- [x] 4.3 Chequeo de regresión completo
   - Correr `./gradlew ktlintCheck testDebugUnitTest assembleDebug assembleDebugAndroidTest` y corregir lo que falle dentro del alcance de la funcionalidad.
   - Correr `koverXmlReportRelease`, el comando que usa CI, para confirmar que los tests unitarios también pasan en release.
   - Listo cuando todos los comandos terminan sin errores.
@@ -109,3 +109,4 @@
 - `ui/theme` no tiene tokens de elevación: `StartRunFab` usa `OptionElevationLevel2 = 3.dp` (M3 level2). Moverlo si se agregan tokens. El catálogo de `ui-components.md` dice `DropdownMenu` para `StartRunFab`; el diseño usa `Popup` focusable.
 - 3.2: sin dispositivo, falta verificar en uno real que la app abra en Inicio (ilustración, mensaje, FAB, Inicio acentuado) y que "Atrás" salga de la app (1.3, 1.4, 4.4). Se arrastra a la validación final.
 - 4.1: `HomeContentTest` solo se compiló (sin dispositivo). El test de "tocar afuera" inyecta un toque de sistema con `uiAutomation.injectInputEvent`, porque el `Popup` focusable vive en otra ventana. Correr `connectedDebugAndroidTest` en un dispositivo.
+- 4.3: con AGP 9 no existe `testReleaseUnitTest`, así que `koverXmlReportRelease` (el comando de CI) no ejecuta tests y reporta 0 % de cobertura. Es previo a esta funcionalidad; seguimiento aparte: pasar CI a `koverXmlReportDebug` o habilitar tests de host en release. Correr Gradle de a un build por vez: en paralelo se quedó sin memoria.
