@@ -30,7 +30,7 @@ fun BottomNavBar(
     val colorScheme = MaterialTheme.colorScheme
     NavigationBar(
         modifier = modifier,
-        containerColor = colorScheme.surfaceContainer,
+        containerColor = colorScheme.onPrimary,
     ) {
         TrazoDestination.entries.forEach { destination ->
             val selected = currentRoute == destination.route
