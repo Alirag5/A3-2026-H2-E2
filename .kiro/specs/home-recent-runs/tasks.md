@@ -34,7 +34,7 @@
   - _Boundary: HomeUiState, HomeViewModel_
   - _Requirements: 2.1, 2.2, 3.2, 3.3, 3.4_
 
-- [ ] 2.3 (P) Componente de estado vacío
+- [x] 2.3 (P) Componente de estado vacío
   - Muestra una ilustración decorativa (no la lee el lector de pantalla) y debajo un mensaje legible, centrados, con la tipografía y el color del sistema de diseño.
   - Es genérico: recibe la ilustración y el mensaje, sin referencias a Inicio.
   - Tiene una preview con la ilustración de recorridos vacíos, envuelta en el tema de Trazo.
@@ -105,3 +105,4 @@
 - `lifecycle-runtime-compose` 2.8.7 ya es transitiva de `androidx.compose.ui:ui` 1.8.0; declararla no cambia la versión resuelta.
 - Material Symbols "history" no tiene variante rellena: `ic_nav_history_filled` = `ic_nav_history_outlined`. La selección de Historial se distingue por el indicador y la etiqueta en negrita (4.5).
 - Ícono adaptativo: el logo va escalado ×1,15 (máx. 31,9 dp del centro); ×1,2 se sale de la zona segura de 33 dp. Falta revisarlo a ojo en la vista previa de Android Studio.
+- `EmptyState` ya aplica `padding(horizontal = Spacing.lg)` en su raíz: `HomeContent` no debe sumar otro margen lateral alrededor.
