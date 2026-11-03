@@ -22,7 +22,7 @@
   - _Boundary: Ícono de la app_
   - _Requirements: 1.1, 1.2_
 
-- [ ] 2.2 (P) Estado de Inicio y su ViewModel, con tests primero
+- [x] 2.2 (P) Estado de Inicio y su ViewModel, con tests primero
   - Escribir primero los tests unitarios en la JVM:
     - El estado inicial es vacío, con el FAB habilitado y la opción oculta.
     - Tocar el FAB muestra la opción.
