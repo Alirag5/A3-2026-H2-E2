@@ -101,6 +101,34 @@
   - _Depends: 4.1, 4.2_
   - _Requirements: 1.1, 1.3, 1.4, 2.1, 3.2, 4.2_
 
+- [x] 5. Barra superior de Inicio y reorganización de archivos
+- [x] 5.1 Ícono y texto de Configuración
+  - Importar Material Symbols "settings" (outlined, 24 dp) como drawable, que se pueda teñir.
+  - Agregar el texto "Configuración" como descripción accesible del botón.
+  - Listo cuando el drawable y el texto compilan con `./gradlew assembleDebug`.
+  - _Requirements: 5.2_
+
+- [x] 5.2 Componente de barra superior
+  - Barra en el color principal con el título a la izquierda (titleLarge, onPrimary) y el botón de Configuración a la derecha (48 dp, ícono de tuerca, descripción accesible).
+  - Cubre también el área de la barra de estado. Tiene preview en el tema de Trazo.
+  - Listo cuando compila, pasa ktlint y la preview se ve.
+  - _Boundary: TrazoTopBar_
+  - _Requirements: 5.1, 5.2_
+
+- [x] 5.3 Integrar la barra superior y reorganizar Inicio
+  - El contenido de Inicio pasa a vivir en el mismo archivo que la pantalla, debajo de ella. El estado de Inicio pasa a vivir arriba del ViewModel. Se borran los archivos separados.
+  - El contenido de Inicio muestra la barra superior arriba y, debajo, el estado vacío y el FAB como antes.
+  - Tocar Configuración no navega. La app deja de consumir el inset superior y la barra de estado muestra íconos claros.
+  - Listo cuando `./gradlew ktlintCheck testDebugUnitTest assembleDebug` pasa y en el código no quedan los archivos separados.
+  - _Depends: 5.1, 5.2_
+  - _Requirements: 5.1, 5.3, 5.4_
+
+- [x] 5.4 Test instrumentado de la barra superior
+  - Verificar que se ve "Trazo" y que el botón "Configuración" está habilitado, se puede tocar y avisa el toque una sola vez, sin disparar el FAB.
+  - Ajustar las llamadas existentes de `HomeContentTest` al nuevo parámetro.
+  - Listo cuando `./gradlew assembleDebugAndroidTest` compila y, si hay un dispositivo, `HomeContentTest` pasa.
+  - _Requirements: 5.1, 5.2, 5.3_
+
 ## Implementation Notes
 - `lifecycle-runtime-compose` 2.8.7 ya es transitiva de `androidx.compose.ui:ui` 1.8.0; declararla no cambia la versión resuelta.
 - Material Symbols "history" no tiene variante rellena: `ic_nav_history_filled` = `ic_nav_history_outlined`. La selección de Historial se distingue por el indicador y la etiqueta en negrita (4.5).
@@ -110,3 +138,4 @@
 - 3.2: sin dispositivo, falta verificar en uno real que la app abra en Inicio (ilustración, mensaje, FAB, Inicio acentuado) y que "Atrás" salga de la app (1.3, 1.4, 4.4). Se arrastra a la validación final.
 - 4.1: `HomeContentTest` solo se compiló (sin dispositivo). El test de "tocar afuera" inyecta un toque de sistema con `uiAutomation.injectInputEvent`, porque el `Popup` focusable vive en otra ventana. Correr `connectedDebugAndroidTest` en un dispositivo.
 - 4.3: con AGP 9 no existe `testReleaseUnitTest`, así que `koverXmlReportRelease` (el comando de CI) no ejecuta tests y reporta 0 % de cobertura. Es previo a esta funcionalidad; seguimiento aparte: pasar CI a `koverXmlReportDebug` o habilitar tests de host en release. Correr Gradle de a un build por vez: en paralelo se quedó sin memoria.
+- 5.x: `HomeContent` vive en `HomeScreen.kt` (debajo de `HomeScreen`) y `HomeUiState` en `HomeViewModel.kt` (arriba de la clase). `TrazoApp` usa `contentWindowInsets = WindowInsets(0)`: cada pantalla maneja el inset superior (Mapa e Historial, cuando tengan contenido real, deben hacerlo). La tuerca no navega todavía.

@@ -26,6 +26,7 @@ class HomeContentTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
+    private var settingsClicks = 0
     private var fabClicks = 0
     private var optionDismissals = 0
     private var optionClicks = 0
@@ -39,6 +40,7 @@ class HomeContentTest {
             TrazoTheme {
                 HomeContent(
                     state = state,
+                    onSettingsClick = { settingsClicks++ },
                     onStartRunFabClick = { fabClicks++ },
                     onStartRunOptionDismiss = { optionDismissals++ },
                     onStartRunOptionClick = { optionClicks++ },
@@ -53,6 +55,23 @@ class HomeContentTest {
         setContent(HomeUiState())
 
         composeTestRule.onNodeWithText(string(R.string.home_empty_runs)).assertIsDisplayed()
+    }
+
+    // 5.1, 5.2, 5.3
+    @Test
+    fun topBar_showsAppName_andSettingsButtonNotifiesClick() {
+        setContent(HomeUiState())
+
+        composeTestRule.onNodeWithText(string(R.string.app_name)).assertIsDisplayed()
+        composeTestRule
+            .onNodeWithContentDescription(string(R.string.home_settings_description))
+            .assertIsDisplayed()
+            .assertIsEnabled()
+            .assertHasClickAction()
+            .performClick()
+
+        assertEquals(1, settingsClicks)
+        assertEquals(0, fabClicks)
     }
 
     // 3.1, 3.2, 3.5

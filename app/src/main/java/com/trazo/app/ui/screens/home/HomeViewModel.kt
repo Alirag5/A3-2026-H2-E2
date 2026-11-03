@@ -9,6 +9,17 @@ import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 /**
+ * Estado inmutable de la pantalla de Inicio.
+ *
+ * Invariante: si [isStartRunEnabled] es `false`, [isStartRunOptionVisible] también es `false`.
+ */
+data class HomeUiState(
+    val hasRecentRuns: Boolean = false,
+    val isStartRunEnabled: Boolean = true,
+    val isStartRunOptionVisible: Boolean = false,
+)
+
+/**
  * Única fuente del estado de Inicio. Procesa los eventos del FAB "+" y de la opción
  * "Iniciar un recorrido".
  */

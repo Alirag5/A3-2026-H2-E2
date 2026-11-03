@@ -20,7 +20,7 @@
 ### Non-Goals
 - Abrir el modal "Iniciar nuevo recorrido" o registrar un recorrido. La opción invoca un callback que en esta spec no hace nada.
 - Persistir o leer recorridos (Room, repositorios, modelo de dominio).
-- Listar cards de recorridos, "Ver todo", la barra superior de Inicio y Configuración.
+- Listar cards de recorridos, "Ver todo" y la pantalla de Configuración (el botón de la barra superior no navega).
 - El contenido de Mapa e Historial.
 - Deshabilitar el FAB durante un recorrido. El estado existe en el `UiState`, pero ninguna fuente lo cambia.
 - Una pantalla de carga: no hay pantalla, librería (`core-splashscreen`), tema de arranque ni cambios en `MainActivity`.
@@ -31,7 +31,8 @@
 ### This Spec Owns
 - El ícono adaptativo de la app (`ic_launcher_foreground` y `ic_launcher_background`).
 - La pantalla de Inicio en su estado vacío: `HomeScreen`, `HomeContent`, `HomeViewModel` y `HomeUiState`.
-- Los componentes `EmptyState` y `StartRunFab`, que nacen en `ui/screens/home/components/`.
+- Los componentes `EmptyState`, `StartRunFab` y `TrazoTopBar`, que nacen en `ui/screens/home/components/`.
+- La barra superior de Inicio (5.x) y el estilo de la barra de estado del sistema (íconos claros).
 - El aspecto y los textos de `BottomNavBar` y `TrazoDestination`.
 - Los strings y drawables nuevos que se listan en el File Structure Plan.
 
@@ -112,15 +113,14 @@ app/src/main/
 │       ├── navigation/
 │       │   ├── TrazoDestination.kt          # (mod) @StringRes label + íconos @DrawableRes relleno / con trazo
 │       │   ├── BottomNavBar.kt              # (mod) colores de Trazo, ícono según selección, label en negrita
-│       │   └── TrazoApp.kt                  # (mod) HomeScreen(onStartRunClick = {}) 
+│       │   └── TrazoApp.kt                  # (mod) HomeScreen(onStartRunClick = {}, onSettingsClick = {}); contentWindowInsets = 0
 │       └── screens/home/
-│           ├── HomeScreen.kt                # (rewrite) conecta HomeViewModel con HomeContent
-│           ├── HomeContent.kt               # (new) dibuja el estado vacío + FAB a partir de HomeUiState
-│           ├── HomeUiState.kt               # (new) estado inmutable de Inicio
-│           ├── HomeViewModel.kt             # (new) StateFlow<HomeUiState> + eventos del FAB
+│           ├── HomeScreen.kt                # (rewrite) HomeScreen (conecta el ViewModel) y, debajo, HomeContent (barra superior + estado vacío + FAB)
+│           ├── HomeViewModel.kt             # (new) HomeUiState (arriba) + HomeViewModel: StateFlow<HomeUiState> y eventos del FAB
 │           └── components/
 │               ├── EmptyState.kt            # (new) ilustración + mensaje (genérico, futuro common/)
-│               └── StartRunFab.kt           # (new) FAB "+" + Popup con "Iniciar un recorrido"
+│               ├── StartRunFab.kt           # (new) FAB "+" + Popup con "Iniciar un recorrido"
+│               └── TrazoTopBar.kt           # (new) barra superior primary con título y botón de Configuración (futuro layout/)
 └── res/
     ├── drawable/
     │   ├── ic_trazo_logo.xml                # (existe) logo 96 dp
@@ -158,7 +158,9 @@ app/build.gradle.kts                         # (mod) implementation de lifecycle
   - El `<monochrome>` del adaptive icon sigue apuntando a este drawable (íconos temáticos de Android 13+).
 - `ic_launcher_background.xml`: un rectángulo de 108 × 108 en `#2E474B`, el color del fondo del logo entregado.
 - `mipmap-anydpi-v26/ic_launcher*.xml` **no cambian**: ya referencian estos dos drawables.
-- `AndroidManifest.xml`, `themes.xml`, `colors.xml` y `MainActivity.kt` **no cambian**.
+- `AndroidManifest.xml`, `themes.xml` y `colors.xml` **no cambian**.
+- `MainActivity.kt`: `enableEdgeToEdge(statusBarStyle = SystemBarStyle.dark(Color.TRANSPARENT))`, para que los íconos de la barra de estado sean claros sobre la barra superior (5.4).
+- `res/drawable/ic_settings.xml` (new): Material Symbols "settings" (outlined, 24 dp), igual que el resto de los íconos.
 - `TrazoDestination.kt`, `BottomNavBar.kt` y `TrazoApp.kt`: según Components.
 
 ### Strings nuevos (`strings.xml`)
@@ -171,6 +173,9 @@ app/build.gradle.kts                         # (mod) implementation de lifecycle
 | `home_empty_runs` | Todavía no hay recorridos | Mensaje del estado vacío |
 | `home_start_run` | Iniciar un recorrido | Texto de la opción |
 | `home_start_run_fab_description` | Nuevo recorrido | `contentDescription` del FAB "+" |
+| `home_settings_description` | Configuración | `contentDescription` del botón de la barra superior |
+
+El título de la barra superior reutiliza `app_name` ("Trazo").
 
 ## System Flows
 
@@ -207,6 +212,10 @@ stateDiagram-v2
 | 4.3 | Mapa/Historial sin acento y tocables | `BottomNavBar` | Ícono con trazo, `onSurfaceVariant`, `enabled = true` | — |
 | 4.4 | Tocar navega y acentúa el destino | `TrazoApp`, `BottomNavBar` | `onDestinationSelected` + `currentRoute` (ya existe) | — |
 | 4.5 | Selección no solo por color | `BottomNavBar` | Ícono relleno vs. con trazo, label `FontWeight.Bold` | — |
+| 5.1 | Barra superior primary con "Trazo" | `HomeContent`, `TrazoTopBar` | `TopAppBar` con `containerColor = primary`, título `app_name` en `titleLarge` | — |
+| 5.2 | Botón de Configuración accesible | `TrazoTopBar` | `IconButton` + `ic_settings`, `home_settings_description` | — |
+| 5.3 | Configuración no navega | `TrazoApp` | `HomeScreen(onSettingsClick = {})` | — |
+| 5.4 | Íconos de la barra de estado legibles | `MainActivity`, `TrazoApp` | `SystemBarStyle.dark`, `contentWindowInsets = WindowInsets(0)`; el `TopAppBar` suma el inset | — |
 
 ## Components and Interfaces
 
@@ -262,10 +271,13 @@ class HomeViewModel @Inject constructor() : ViewModel() {
 
 #### HomeScreen y HomeContent
 
+Los dos van en `HomeScreen.kt`: primero `HomeScreen` y debajo `HomeContent`. `HomeUiState` va en `HomeViewModel.kt`, arriba de la clase.
+
 ```kotlin
 @Composable
 fun HomeScreen(
     onStartRunClick: () -> Unit,
+    onSettingsClick: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel(),
 )
@@ -273,6 +285,7 @@ fun HomeScreen(
 @Composable
 fun HomeContent(
     state: HomeUiState,
+    onSettingsClick: () -> Unit,
     onStartRunFabClick: () -> Unit,
     onStartRunOptionDismiss: () -> Unit,
     onStartRunOptionClick: () -> Unit,
@@ -286,6 +299,20 @@ fun HomeContent(
 - Hay previews para "vacío / opción oculta" y "vacío / opción visible", envueltas en `TrazoTheme`.
 
 ### UI / componentes (`ui/screens/home/components/`)
+
+#### TrazoTopBar (summary-only)
+```kotlin
+@Composable
+fun TrazoTopBar(
+    title: String,
+    onSettingsClick: () -> Unit,
+    modifier: Modifier = Modifier,
+)
+```
+- `TopAppBar` de M3 (64 dp más el inset de la barra de estado) con `containerColor = primary` y título y acción en `onPrimary`.
+- El título va en `titleLarge`. La acción es un `IconButton` de 48 dp con `ic_settings` y la descripción `home_settings_description` (5.1, 5.2).
+- `HomeContent` la pone arriba, en un `Column`, y debajo va un `Box(weight(1f))` con el estado vacío y el FAB.
+- Nace en Inicio con el nombre del catálogo (`ui/components/layout/`) y se mueve ahí cuando la use otra pantalla.
 
 #### EmptyState (summary-only)
 ```kotlin
