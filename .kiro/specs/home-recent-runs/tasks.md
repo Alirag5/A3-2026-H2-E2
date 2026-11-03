@@ -42,7 +42,7 @@
   - _Boundary: EmptyState_
   - _Requirements: 2.1, 2.3_
 
-- [ ] 2.4 (P) Componente de botón flotante con la opción "Iniciar un recorrido"
+- [x] 2.4 (P) Componente de botón flotante con la opción "Iniciar un recorrido"
   - El FAB "+" sigue el estilo del sistema de diseño (primary, 56 dp, forma large) y tiene la descripción accesible "Nuevo recorrido". Admite un estado deshabilitado.
   - Cuando la opción está visible, aparece un botón extendido Lima con el ícono de ruta y el texto "Iniciar un recorrido", alineado a la derecha y por encima del FAB, en una capa emergente que cubre toda la ventana.
   - Tocar fuera de la opción avisa que se descartó, y elegirla avisa que se seleccionó. El componente no guarda estado propio.
@@ -106,3 +106,4 @@
 - Material Symbols "history" no tiene variante rellena: `ic_nav_history_filled` = `ic_nav_history_outlined`. La selección de Historial se distingue por el indicador y la etiqueta en negrita (4.5).
 - Ícono adaptativo: el logo va escalado ×1,15 (máx. 31,9 dp del centro); ×1,2 se sale de la zona segura de 33 dp. Falta revisarlo a ojo en la vista previa de Android Studio.
 - `EmptyState` ya aplica `padding(horizontal = Spacing.lg)` en su raíz: `HomeContent` no debe sumar otro margen lateral alrededor.
+- `ui/theme` no tiene tokens de elevación: `StartRunFab` usa `OptionElevationLevel2 = 3.dp` (M3 level2). Moverlo si se agregan tokens. El catálogo de `ui-components.md` dice `DropdownMenu` para `StartRunFab`; el diseño usa `Popup` focusable.
