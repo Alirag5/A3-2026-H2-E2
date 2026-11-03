@@ -51,7 +51,7 @@
   - _Boundary: StartRunFab_
   - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5_
 
-- [ ] 2.5 (P) Barra de navegación con el estilo de Trazo
+- [x] 2.5 (P) Barra de navegación con el estilo de Trazo
   - Los destinos toman su etiqueta de los recursos de texto y tienen un ícono relleno y uno con trazo. Las rutas y el orden no cambian.
   - El ítem activo usa el indicador primaryContainer, el ícono relleno y la etiqueta en negrita. Los inactivos usan el ícono con trazo y onSurfaceVariant, y se pueden seguir tocando.
   - Los íconos no repiten el nombre para el lector de pantalla, porque ya lo da la etiqueta.
