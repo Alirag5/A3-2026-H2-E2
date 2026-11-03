@@ -69,7 +69,7 @@
   - _Depends: 2.2, 2.3, 2.4_
   - _Requirements: 2.1, 2.2, 3.1_
 
-- [ ] 3.2 Conectar Inicio con su ViewModel y con la navegación de la app
+- [x] 3.2 Conectar Inicio con su ViewModel y con la navegación de la app
   - La pantalla de Inicio observa el estado del ViewModel respetando el ciclo de vida y le pasa los eventos al contenido. Al elegir "Iniciar un recorrido", cierra la opción y avisa hacia afuera.
   - La navegación de la app usa la nueva pantalla de Inicio como destino inicial y le pasa una acción vacía para "Iniciar un recorrido", que define otra historia.
   - Listo cuando la app instalada abre directo en Inicio con la ilustración, "Todavía no hay recorridos", el FAB "+" e Inicio acentuado, y "Atrás" desde Inicio sale de la app.
@@ -107,3 +107,4 @@
 - Ícono adaptativo: el logo va escalado ×1,15 (máx. 31,9 dp del centro); ×1,2 se sale de la zona segura de 33 dp. Falta revisarlo a ojo en la vista previa de Android Studio.
 - `EmptyState` ya aplica `padding(horizontal = Spacing.lg)` en su raíz: `HomeContent` no debe sumar otro margen lateral alrededor.
 - `ui/theme` no tiene tokens de elevación: `StartRunFab` usa `OptionElevationLevel2 = 3.dp` (M3 level2). Moverlo si se agregan tokens. El catálogo de `ui-components.md` dice `DropdownMenu` para `StartRunFab`; el diseño usa `Popup` focusable.
+- 3.2: sin dispositivo, falta verificar en uno real que la app abra en Inicio (ilustración, mensaje, FAB, Inicio acentuado) y que "Atrás" salga de la app (1.3, 1.4, 4.4). Se arrastra a la validación final.

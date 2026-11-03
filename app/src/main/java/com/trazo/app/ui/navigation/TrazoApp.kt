@@ -41,7 +41,10 @@ fun TrazoApp() {
             startDestination = TrazoDestination.HOME.route,
             modifier = Modifier.padding(innerPadding),
         ) {
-            composable(TrazoDestination.HOME.route) { HomeScreen() }
+            composable(TrazoDestination.HOME.route) {
+                // El modal "Iniciar nuevo recorrido" pertenece a otra historia.
+                HomeScreen(onStartRunClick = {})
+            }
             composable(TrazoDestination.MAP.route) { MapScreen() }
             composable(TrazoDestination.HISTORY.route) { HistoryScreen() }
         }

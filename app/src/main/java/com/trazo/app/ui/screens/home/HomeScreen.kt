@@ -1,15 +1,31 @@
 package com.trazo.app.ui.screens.home
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
+/**
+ * Conecta [HomeViewModel] con [HomeContent]. No dibuja nada propio.
+ *
+ * @param onStartRunClick se invoca al elegir "Iniciar un recorrido", después de cerrar la opción.
+ */
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier) {
-    Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text("Inicio")
-    }
+fun HomeScreen(
+    onStartRunClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: HomeViewModel = hiltViewModel(),
+) {
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
+    HomeContent(
+        state = state,
+        onStartRunFabClick = viewModel::onStartRunFabClick,
+        onStartRunOptionDismiss = viewModel::onStartRunOptionDismiss,
+        onStartRunOptionClick = {
+            viewModel.onStartRunOptionClick()
+            onStartRunClick()
+        },
+        modifier = modifier,
+    )
 }
